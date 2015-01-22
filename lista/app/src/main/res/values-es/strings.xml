@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ListView Demo</string>
+    <string name="hello_world">Hola Mundo</string>
+    <string name="action_settings">Ajustes</string>
+
+    <string name="item">Elemento</string>
+    <string name="add">Añadir</string>
+    <string name="your_selection_is">Seleccionaste:</string>
+
+</resources>
