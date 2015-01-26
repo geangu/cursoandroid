@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notas</string>
+    <string name="action_settings"></string>
+    <string name="hello_world">Hola Mundo</string>
+    <string name="new_note">Nueva Nota</string>
+    <string name="title_activity_create_file">Crear Nota</string>
+    <string name="title_activity_edit_file">Editar Nota</string>
+</resources>

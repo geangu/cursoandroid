@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {
-
+/Users/andres/Android/workspace/Archivos/src/co/com/ccti/archivos
 			File file = new File("archivo.txt");
 			FileInputStream stream = new FileInputStream(file);
 			InputStreamReader reader = new InputStreamReader(stream);
