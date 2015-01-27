@@ -9,7 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -23,9 +23,7 @@ import java.util.List;
 /**
  * Created by andres on 26/01/15.
  */
-public class BookService extends AsyncTask<String, Void, Boolean> {
-
-    Activity activity;
+public class EditBookService extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPreExecute() {
@@ -38,12 +36,12 @@ public class BookService extends AsyncTask<String, Void, Boolean> {
         try {
             HttpClient client = new DefaultHttpClient();
 
-            HttpPost post = new HttpPost(Constants.API_URL);
+            HttpPut put = new HttpPut(Constants.API_URL + params[0]);
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("title", params[0]));
-            post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            HttpResponse httpResponse = client.execute(post);
+            nameValuePairs.add(new BasicNameValuePair("title", params[1]));
+            put.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse httpResponse = client.execute(put);
 
             String results = EntityUtils.toString(httpResponse.getEntity());
 
@@ -55,15 +53,12 @@ public class BookService extends AsyncTask<String, Void, Boolean> {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(this.activity.getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-            Toast.makeText(this.activity.getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this.activity.getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         return Boolean.FALSE;

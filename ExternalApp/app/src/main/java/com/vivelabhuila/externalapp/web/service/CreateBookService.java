@@ -2,6 +2,7 @@ package com.vivelabhuila.externalapp.web.service;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.vivelabhuila.externalapp.MainActivity;
@@ -11,30 +12,25 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.DefaultedHttpParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by andres on 26/01/15.
  */
-public class FindAllBookService extends AsyncTask<Void, Void, ArrayList<String>> {
+public class CreateBookService extends AsyncTask<String, Void, Boolean> {
 
-    MainActivity activity;
+    Activity activity;
 
-    public FindAllBookService(MainActivity activity){
+    public CreateBookService(MainActivity activity) {
         this.activity = activity;
     }
 
@@ -44,24 +40,25 @@ public class FindAllBookService extends AsyncTask<Void, Void, ArrayList<String>>
     }
 
     @Override
-    protected ArrayList<String> doInBackground(Void... params) {
-
-        ArrayList<String> list = new ArrayList<>();
+    protected Boolean doInBackground(String... params) {
 
         try {
             HttpClient client = new DefaultHttpClient();
-            HttpGet get = new HttpGet(Constants.API_URL + "?max=100");
-            HttpResponse httpResponse = client.execute(get);
+
+            HttpPost post = new HttpPost(Constants.API_URL);
+
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("title", params[0]));
+            post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse httpResponse = client.execute(post);
 
             String results = EntityUtils.toString(httpResponse.getEntity());
 
             try {
-                JSONArray array = new JSONArray(results);
-                for(int i = 0; i < array.length(); i++){
-                    JSONObject object = (JSONObject) array.get(i);
-                    String idObtained = object.getString("id");
-                    String titleObtained = object.getString("title");
-                    list.add(idObtained + " - " + titleObtained);
+                JSONObject object = new JSONObject(results);
+                String titleObtained = object.getString("title");
+                if (titleObtained != null && titleObtained.equalsIgnoreCase(params[0])) {
+                    return Boolean.TRUE;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -75,17 +72,12 @@ public class FindAllBookService extends AsyncTask<Void, Void, ArrayList<String>>
             e.printStackTrace();
             Toast.makeText(this.activity.getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        return list;
+
+        return Boolean.FALSE;
     }
 
     @Override
-    protected void onPostExecute(ArrayList<String> b) {
+    protected void onPostExecute(Boolean b) {
         super.onPostExecute(b);
-        Iterator<String> iterator = b.iterator();
-        activity.list.clear();
-        while ( iterator.hasNext() ) {
-            activity.list.add(iterator.next());
-        }
-        activity.adapter.notifyDataSetChanged();
     }
 }
