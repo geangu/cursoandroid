@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Database</string>
+    <string name="title_activity_edit">Edit</string>
+
+    <string name="title">Title</string>
+
+    <string name="create">Create</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+
+    <string name="msg_change_ok">Change Ok :D</string>
+    <string name="msg_change_fail">Error</string>
+
+</resources>

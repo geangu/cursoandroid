@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Base de Datos</string>
+    <string name="create">Crear</string>
+    <string name="delete">Borrar</string>
+    <string name="msg_change_fail">Error</string>
+    <string name="msg_change_ok">Cambios realizados :D</string>
+    <string name="save">Guardar</string>
+    <string name="title">Titulo</string>
+    <string name="title_activity_edit">Editar</string>
+</resources>
