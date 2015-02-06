@@ -1,0 +1,88 @@
+Ejercicio PhoneGap QrCOde
+
+1 En la terminal de comandos ejecutar:
+
+	cordova create QrCode com.vivelabhuila.qrcode QrCode
+	cd QrCode
+	cordova platform add android
+
+
+2. Agregar el plugin de soporte para QrCode usando este comando:
+
+	cordova plugins add https://github.com/wildabeast/BarcodeScanner.git
+
+3. En el editor de preferencia crear o cambiar los archivos.
+
+	-> index.html
+
+		**********************************************************************************************
+		<!DOCTYPE html>
+		<html>
+		    <head>
+		        <meta charset="utf-8" />
+		        <meta name="format-detection" content="telephone=no" />
+		        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+		        <link rel="stylesheet" type="text/css" href="css/index.css" />
+		    </head>
+
+		    <body>
+
+		    <p>
+		    <button id="startScan">Start Scan</button>
+		    </p>
+
+		    <div id="results"></div>
+
+		        <script type="text/javascript" src="cordova.js"></script>
+		        <script type="text/javascript" src="js/app.js"></script>
+		    </body>
+		</html>
+		**********************************************************************************************
+
+	-> index.css
+
+		**********************************************************************************************
+		body {
+		    margin-top: 20px;
+		}
+
+		button {
+		    width: 100%;
+		    height: 30px;
+		}
+		**********************************************************************************************
+
+	-> app.js
+
+		**********************************************************************************************
+		var resultDiv;
+
+		document.addEventListener("deviceready", init, false);
+
+		function init() {
+		    document.querySelector("#startScan").addEventListener("touchend", startScan, false);
+		    resultDiv = document.querySelector("#results");
+		}
+
+		function startScan() {
+
+		    cordova.plugins.barcodeScanner.scan(
+		        function (result) {
+		            var s = "Result: " + result.text + "<br/>" +
+		            "Format: " + result.format + "<br/>" +
+		            "Cancelled: " + result.cancelled;
+		            resultDiv.innerHTML = s;
+		        }, 
+		        function (error) {
+		            alert("Scanning failed: " + error);
+		        }
+		    );
+
+		}
+		**********************************************************************************************
+
+4. Ejecutar la aplicación usando el comando:
+
+	cordova run android
+
+5. Usar la aplicación para leer varios codigos QR
